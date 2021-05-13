@@ -7,11 +7,11 @@ docker_build(
   context="./ui",
   dockerfile="./configs/Dockerfile.frontend",
   live_update=[
-    sync("./ui", "/app"),
+    sync("./ui/", "/app/"),
     run("cd /app && yarn", trigger=["./ui/yarn.lock"]),
   ],
   target="build",
-  entrypoint="yarn dev",
+  entrypoint="sleep infinity & wait",
 )
 
 ui_yaml = helm("./configs/charts/ui", name="ui", values=["./configs/charts/ui/values.yaml"])
