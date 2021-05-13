@@ -1,11 +1,12 @@
 FROM node:16.1.0-alpine as build
 WORKDIR /app
 
-COPY ui/package.json ui/yarn..lock ./
+COPY package.json yarn.lock ./
 RUN yarn --non-interactive --pure-lockfile
-COPY ui .
+COPY . .
 
 FROM build AS bundle
 RUN yarn build
 
 FROM nginx:1.19-alpine
+COPY --from=bundle /app/dist /usr/share/nginx/html
