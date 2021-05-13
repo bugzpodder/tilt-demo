@@ -6,7 +6,6 @@ replicaCount: 1
 
 image:
   repository: ui
-  registry: localhost:32323
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

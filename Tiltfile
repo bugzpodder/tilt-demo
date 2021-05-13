@@ -8,7 +8,7 @@ helm_remote("traefik",
   version="9.12.3",
   set=["service.type=ClusterIP"])
 
-k8s_resource("traefik", port_forwards=["8886:8000", "9006:9000"])
+k8s_resource("traefik", port_forwards=["8000:8000", "9000:9000"])
 
 docker_build(
   ref="server",
@@ -18,7 +18,7 @@ docker_build(
     sync("./server", "/app"),
     run("cd /app && poetry install", trigger=["./server/poetry.lock"]),
   ],
-  entrypoint="poetry run uvicorn main:app --reload",
+  entrypoint="poetry run uvicorn main:app --reload --port 8001 --host 0.0.0.0",
 )
 
 ui_yaml = helm("./configs/charts/ui", name="ui", values=["./configs/charts/ui/values.yaml"])
@@ -43,5 +43,3 @@ k8s_yaml(ui_yaml)
 server_yaml = helm("./configs/charts/server", name="server", values=["./configs/charts/server/values.yaml"])
 
 k8s_yaml(server_yaml)
-#k8s_resource("ui", port_forwards=["3000:3000"])
-#k8s_resource("server", port_forwards=["8000:8000"])
