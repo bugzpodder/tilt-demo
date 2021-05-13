@@ -1,0 +1,6 @@
+ctlptl 0.5.2
+helm 3.5.4
+kind 0.10.0
+kubectl 1.21.1
+pulumi 3.2.1
+tilt 0.20.2
